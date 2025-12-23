@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chetan Koirala - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            padding: 20px;
+        }
+
+        .resume-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #0ea5e9;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            color: #0ea5e9;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .contact-info span {
+            padding: 0 10px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #0ea5e9;
+            border-bottom: 2px solid #0ea5e9;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .education-item, .experience-item, .project-item {
+            margin-bottom: 20px;
+            padding-left: 20px;
+            border-left: 3px solid #e0f2fe;
+            padding-bottom: 15px;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .item-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .item-company {
+            font-size: 16px;
+            color: #0ea5e9;
+            font-weight: 500;
+            margin-top: 3px;
+        }
+
+        .item-date {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+            white-space: nowrap;
+        }
+
+        .item-location {
+            font-size: 14px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .item-description {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .item-description ul {
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+
+        .item-description li {
+            margin-bottom: 5px;
+        }
+
+        .tech-stack {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .tech-stack strong {
+            color: #0ea5e9;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .skill-category {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 4px solid #0ea5e9;
+        }
+
+        .skill-category h4 {
+            font-size: 16px;
+            color: #0ea5e9;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .skill-category p {
+            font-size: 14px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .achievements-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .achievements-list li {
+            padding: 10px 0 10px 25px;
+            border-left: 3px solid #0ea5e9;
+            margin-bottom: 10px;
+            background: #f0f9ff;
+            padding-left: 20px;
+            border-radius: 3px;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .achievements-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 5px;
+            color: #0ea5e9;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        @media print {
+            body {
+                padding: 0;
+            }
+            .resume-container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            .section {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .item-header {
+                flex-direction: column;
+            }
+            .item-date {
+                margin-top: 5px;
+            }
+            .contact-info {
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="resume-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Chetan Koirala</h1>
+            <div class="contact-info">
+                <span>+977-9849756660</span>
+                <span>|</span>
+                <span>koiralachetan16@gmail.com</span>
+                <span>|</span>
+                <span>linkedin.com/np/ChetanKoirala</span>
+            </div>
+        </div>
+
+        <!-- Education -->
+        <div class="section">
+            <h2 class="section-title">Education</h2>
+            <div class="education-item">
+                <div class="item-header">
+                    <div>
+                        <div class="item-title">Bachelor in Computer Application (BCA)</div>
+                        <div class="item-company">Tribhuwan University</div>
+                        <div class="item-location">Kathmandu, Nepal</div>
+                    </div>
+                </div>
+                <div class="item-description">
+                    Focused on software development, process design, and project management.
+                    Practical experience in building real-world web and automation systems.
+                </div>
+            </div>
+        </div>
+
+        <!-- Professional Experience -->
+        <div class="section">
+            <h2 class="section-title">Professional Experience</h2>
+            
+            <div class="experience-item">
+                <div class="item-header">
+                    <div>
+                        <div class="item-title">Frontend Developer</div>
+                        <div class="item-company">GreenCart Project (Freelance/College Initiative)</div>
+                        <div class="item-location">Kathmandu, Nepal</div>
+                    </div>
+                    <div class="item-date">Apr 2024 – Present</div>
+                </div>
+                <div class="item-description">
+                    <ul>
+                        <li>Developed a modern, responsive e-commerce frontend using React and Tailwind.</li>
+                        <li>Collaborated with team to integrate Firebase and eSewa payment gateway.</li>
+                        <li>Worked on dynamic user/seller dashboards and cart/address management using React Router.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="experience-item">
+                <div class="item-header">
+                    <div>
+                        <div class="item-title">Tech Intern</div>
+                        <div class="item-company">Research And Innovation Unit (RIU)</div>
+                        <div class="item-location">Kathmandu, Nepal</div>
+                    </div>
+                    <div class="item-date">Jun 2022 – Aug 2022</div>
+                </div>
+                <div class="item-description">
+                    <ul>
+                        <li>Participated in robotic system prototyping for basic automation tasks.</li>
+                        <li>Assisted in system testing and quality assurance.</li>
+                        <li>Gained hands-on experience in teamwork and industry-level problem solving.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="section">
+            <h2 class="section-title">Projects</h2>
+            
+            <div class="project-item">
+                <div class="item-header">
+                    <div>
+                        <div class="item-title">GreenCart – E-commerce Store</div>
+                    </div>
+                    <div class="item-date">Apr 2024 – Present</div>
+                </div>
+                <div class="item-description">
+                    Built a full-stack e-commerce store for Nepali local products with payment gateway integration (eSewa/Khalti).
+                </div>
+                <div class="tech-stack">
+                    <strong>Tech:</strong> React, Node.js, MongoDB, Express, Firebase, Vite, Tailwind
+                </div>
+            </div>
+
+            <div class="project-item">
+                <div class="item-header">
+                    <div>
+                        <div class="item-title">Online News Portal System</div>
+                    </div>
+                    <div class="item-date">Oct 2023 – Dec 2023</div>
+                </div>
+                <div class="item-description">
+                    Developed a complete multi-role news portal (admin, reporter, user).
+                </div>
+                <div class="tech-stack">
+                    <strong>Tech:</strong> HTML, CSS, JavaScript, PHP, MySQL
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Skills -->
+        <div class="section">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h4>Languages</h4>
+                    <p>Python, HTML, CSS, JavaScript</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Frameworks/Tools</h4>
+                    <p>React, Node.js, PHP, Git</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Databases</h4>
+                    <p>MongoDB, MySQL</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Testing</h4>
+                    <p>PostMan</p>
+                </div>
+                <div class="skill-category">
+                    <h4>Others</h4>
+                    <p>Responsive Design, System Debugging, UI/UX, Payment Integration</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="section">
+            <h2 class="section-title">Achievements</h2>
+            <ul class="achievements-list">
+                <li>Selected as Best Academic Project – BCA 4th Semester (2023)</li>
+                <li>Led GreenCart project under student startup initiative (2024)</li>
+                <li>Delivered guest session on "Building Modern UIs with React" in college tech meetup (2025)</li>
+                <li>Scored A+ in Software Engineering & Web Programming Practical Labs</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Auto-print dialog on page load (optional - uncomment if needed)
+        // window.onload = function() {
+        //     window.print();
+        // }
+    </script>
+</body>
+</html>
+

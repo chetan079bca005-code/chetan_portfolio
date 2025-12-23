@@ -1,0 +1,55 @@
+================================================================================
+  📸 WHERE TO PUT YOUR IMAGES - IMPORTANT!
+================================================================================
+
+Put your images in the "public" folder at the root of your project.
+
+📁 Folder Structure:
+   my portfolio/
+   └── public/
+       ├── profile-image.jpg  ← PUT YOUR PROFILE PHOTO HERE
+       └── logo.png           ← PUT YOUR LOGO HERE (optional)
+
+================================================================================
+  REQUIRED IMAGES:
+================================================================================
+
+1. PROFILE IMAGE (Required)
+   ✅ File name: "profile-image.jpg" (or .png)
+   ✅ Location: public/profile-image.jpg
+   ✅ Recommended: 800x800 pixels, square format
+   ✅ Will appear in the Home section
+
+2. LOGO (Optional)
+   ✅ File name: "logo.png" (or .jpg, .svg)
+   ✅ Location: public/logo.png
+   ✅ Recommended: 200x200 pixels (square) or your custom design
+   ✅ Will appear in the Navbar
+   ✅ If not provided, a gradient text logo will show instead
+
+================================================================================
+  QUICK STEPS:
+================================================================================
+
+1. Open the "public" folder in your project
+2. Place your profile photo and name it: "profile-image.jpg"
+3. Place your logo and name it: "logo.png" (optional)
+4. Restart your dev server: npm run dev
+5. Done! Your images will appear automatically
+
+================================================================================
+  TIPS:
+================================================================================
+
+- Use square images for best results
+- Keep file sizes under 500KB for faster loading
+- PNG format recommended for logos (supports transparency)
+- JPG format recommended for photos
+
+If images don't appear, check:
+- File names match exactly (case-sensitive)
+- Files are in the "public" folder (not src/)
+- Dev server has been restarted
+
+================================================================================
+
