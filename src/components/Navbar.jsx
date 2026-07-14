@@ -1,14 +1,21 @@
-import { useState, useEffect, useContext } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
-import { FiMoon, FiSun, FiMenu, FiX, FiCode } from 'react-icons/fi'
-import DarkModeContext from '../context/DarkModeContext'
+import { useState, useEffect } from 'react'
+import { FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi'
 
-const Navbar = () => {
+const Navbar = ({ darkMode, setDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
-  const { darkMode, toggleDarkMode } = useContext(DarkModeContext)
-  const location = useLocation()
+
+  const scrolledSurfaceClass = darkMode
+    ? 'bg-black/70 backdrop-blur-md py-3 shadow-[0_8px_30px_rgba(0,0,0,0.28)] border-b border-white/10'
+    : 'bg-[rgba(255,248,237,0.88)] backdrop-blur-xl py-3 shadow-[0_8px_30px_rgba(28,25,23,0.06)] border-b border-charcoal-900/10'
+
+  const navLinks = [
+    { name: 'INDEX', path: '#home' },
+    { name: 'ABOUT', path: '#about' },
+    { name: 'EXPERIENCE', path: '#experience' },
+    { name: 'PROJECTS', path: '#projects' },
+    { name: 'CONTACT', path: '#contact' },
+  ]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,138 +25,99 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/about', label: 'About' },
-    { path: '/projects', label: 'Projects' },
-    { path: '/experience', label: 'Experience' },
-    { path: '/contact', label: 'Contact' },
-  ]
+  const handleLinkClick = (e, path) => {
+    e.preventDefault()
+    setIsOpen(false)
+    const element = document.querySelector(path)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+      window.history.pushState(null, null, path)
+    }
+  }
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg shadow-md'
-          : 'bg-transparent'
-      }`}
-    >
-      <div className="container-custom">
-        <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link 
-            to="/" 
-            className="flex items-center space-x-2 group"
+    <nav className={`fixed top-0 left-0 w-full z-[80] transition-all duration-300 ${
+      scrolled 
+        ? scrolledSurfaceClass
+        : 'bg-transparent py-5 border-b border-transparent'
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center gap-4">
+        
+        {/* Logo */}
+        <a
+          href="#home"
+          onClick={(e) => handleLinkClick(e, '#home')}
+          className="flex items-center gap-2 group font-serif text-lg font-normal tracking-tight text-charcoal-900 dark:text-cream-50"
+        >
+          <span className="font-mono text-xs text-terracotta-800 dark:text-terracotta-600 font-bold">CK</span>
+          <span className="hidden sm:inline hover:underline decoration-terracotta-800 dark:decoration-terracotta-600 underline-offset-4">chetankoirala.com.np</span>
+          <span className="inline sm:hidden font-serif">Chetan K.</span>
+        </a>
+
+        {/* Desktop Nav */}
+        <div className="hidden md:flex items-center gap-5 font-mono text-[11px]">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.path}
+              onClick={(e) => handleLinkClick(e, link.path)}
+              className="text-charcoal-700 hover:text-terracotta-800 dark:text-cream-200 dark:hover:text-terracotta-600 transition-all relative group py-2 active:scale-[0.98]"
+            >
+              {link.name}
+              <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-terracotta-800 dark:bg-terracotta-600 transition-all duration-300 group-hover:w-full"></span>
+            </a>
+          ))}
+
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-full border border-charcoal-900/10 dark:border-cream-100/10 hover:bg-charcoal-900/5 dark:hover:bg-cream-100/5 transition-all text-charcoal-700 dark:text-cream-200 active:scale-[0.96]"
+            aria-label="Toggle theme"
           >
-            {/* Logo Image or Icon */}
-            <div className="relative">
-              <img
-                src="/logo.png"
-                alt="Chetan Koirala Logo"
-                className="h-10 w-10 md:h-12 md:w-12 rounded-full object-cover border-2 border-primary-600 dark:border-primary-400 group-hover:scale-110 transition-transform"
-                onError={(e) => {
-                  // Hide image and show fallback
-                  e.target.style.display = 'none'
-                  const fallback = e.target.nextElementSibling
-                  if (fallback) {
-                    fallback.classList.remove('hidden')
-                  }
-                }}
-              />
-              {/* Fallback Logo */}
-              <div className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-gradient-to-br from-primary-600 to-purple-600 flex items-center justify-center text-white font-bold text-lg md:text-xl group-hover:scale-110 transition-transform hidden">
-                <FiCode size={24} />
-              </div>
-            </div>
-            {/* Logo Text */}
-            <div className="flex flex-col">
-              <span className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-purple-600 dark:from-primary-400 dark:to-purple-400">
-                Chetan Koirala
-              </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 -mt-1 hidden sm:block">
-                Full Stack Developer
-              </span>
-            </div>
-          </Link>
+            {darkMode ? <FiSun size={15} /> : <FiMoon size={15} />}
+          </button>
+        </div>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`relative text-sm font-medium transition-colors ${
-                  location.pathname === link.path
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400'
-                }`}
-              >
-                {link.label}
-                {location.pathname === link.path && (
-                  <motion.div
-                    layoutId="activeTab"
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary-600 dark:bg-primary-400"
-                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                  />
-                )}
-              </Link>
-            ))}
-          </div>
+        {/* Mobile controls */}
+        <div className="flex md:hidden items-center gap-2">
+          {/* Theme Toggle Mobile */}
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            className="p-2 rounded-full border border-charcoal-900/10 dark:border-cream-100/10 hover:bg-charcoal-900/5 dark:hover:bg-cream-100/5 transition-all text-charcoal-700 dark:text-cream-200 active:scale-[0.96]"
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <FiSun size={15} /> : <FiMoon size={15} />}
+          </button>
 
-          {/* Dark Mode Toggle & Mobile Menu Button */}
-          <div className="flex items-center space-x-4">
-            <button
-              onClick={toggleDarkMode}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              {darkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
-            </button>
-
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-            </button>
-          </div>
+          {/* Menu button */}
+          <button
+            className="text-charcoal-900 dark:text-cream-50 p-2 rounded-full border border-charcoal-900/10 dark:border-cream-100/10 hover:bg-charcoal-900/5 dark:hover:bg-cream-100/5 transition-all active:scale-[0.96]"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Navigation */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
-          >
-            <div className="container-custom py-4 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsOpen(false)}
-                  className={`block px-4 py-2 rounded-lg transition-colors ${
-                    location.pathname === link.path
-                      ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.nav>
+      {/* Mobile Drawer */}
+      {isOpen && (
+        <div className="md:hidden border-t border-charcoal-900/5 dark:border-cream-100/5 bg-[rgba(255,248,237,0.98)] dark:bg-charcoal-900/95 backdrop-blur-xl flex flex-col p-5 space-y-3 font-mono text-sm absolute top-full left-0 w-full shadow-lg">
+          {navLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.path}
+              onClick={(e) => handleLinkClick(e, link.path)}
+              className="text-charcoal-700 dark:text-cream-200 py-3 border-b border-charcoal-900/5 dark:border-cream-100/5 transition-all active:scale-[0.98]"
+            >
+              {link.name}
+            </a>
+          ))}
+        </div>
+      )}
+    </nav>
   )
 }
 
 export default Navbar
+

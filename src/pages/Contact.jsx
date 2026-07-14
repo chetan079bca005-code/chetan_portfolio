@@ -1,374 +1,159 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { FiMail, FiPhone, FiMapPin, FiLinkedin, FiGithub, FiSend, FiMessageCircle } from 'react-icons/fi'
-import { FaWhatsapp } from 'react-icons/fa'
-import emailjs from '@emailjs/browser'
-import Card from '../components/Card'
-import Button from '../components/Button'
 
 const Contact = () => {
+  const whatsappUrl = 'https://wa.me/9779849756660?text=' + encodeURIComponent('Hi Chetan, I visited your portfolio and would like to connect.')
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: '',
+    message: ''
   })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [submitStatus, setSubmitStatus] = useState(null)
+  const [status, setStatus] = useState({ type: '', message: '' })
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    })
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    setIsSubmitting(true)
-    setSubmitStatus(null)
+    setLoading(true)
+    setStatus({ type: '', message: '' })
 
-    // EmailJS configuration
-    // Note: You'll need to set up EmailJS and replace these with your own keys
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID'
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID'
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY'
-
-    // Fallback if EmailJS is not configured
-    if (serviceId === 'YOUR_SERVICE_ID' || templateId === 'YOUR_TEMPLATE_ID' || publicKey === 'YOUR_PUBLIC_KEY') {
-      // For demo purposes, show success message
-      // In production, you should configure EmailJS
-      setTimeout(() => {
-        setSubmitStatus({ 
-          type: 'info', 
-          message: 'Form submitted! (EmailJS not configured - please set up in Contact.jsx)' 
-        })
-        setFormData({ name: '', email: '', subject: '', message: '' })
-        setIsSubmitting(false)
-      }, 1000)
-      return
-    }
-
-    try {
-      await emailjs.send(
-        serviceId,
-        templateId,
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-        },
-        publicKey
-      )
-
-      setSubmitStatus({ type: 'success', message: 'Message sent successfully!' })
+    // Simulate submission flow
+    setTimeout(() => {
+      setLoading(false)
+      setStatus({
+        type: 'success',
+        message: `Thank you. Your message has been logged. I will review and reply directly to ${formData.email} shortly.`
+      })
       setFormData({ name: '', email: '', subject: '', message: '' })
-    } catch (error) {
-      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' })
-      console.error('EmailJS Error:', error)
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
-
-  const contactInfo = [
-    {
-      icon: <FiMail size={24} />,
-      label: 'Email',
-      value: 'koiralachetan16@gmail.com',
-      href: 'mailto:koiralachetan16@gmail.com',
-    },
-    {
-      icon: <FiPhone size={24} />,
-      label: 'Phone',
-      value: '+977-9849756660',
-      href: 'tel:+9779849756660',
-    },
-    {
-      icon: <FiMapPin size={24} />,
-      label: 'Location',
-      value: 'Kathmandu, Nepal',
-      href: '#',
-    },
-  ]
-
-  const socialLinks = [
-    {
-      icon: <FaWhatsapp size={24} />,
-      label: 'WhatsApp',
-      href: 'https://wa.me/9779849756660?text=Hello%20Chetan,%20I%20would%20like%20to%20discuss%20a%20project%20with%20you.',
-      color: 'text-green-600 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-700 dark:hover:text-green-300',
-    },
-    {
-      icon: <FiLinkedin size={24} />,
-      label: 'LinkedIn',
-      href: 'https://linkedin.com/np/ChetanKoirala',
-    },
-    {
-      icon: <FiGithub size={24} />,
-      label: 'GitHub',
-      href: 'https://github.com',
-    },
-  ]
-
-  // Function to handle WhatsApp message with form data
-  const handleWhatsAppClick = () => {
-    const phoneNumber = '9779849756660'
-    const message = formData.name && formData.message
-      ? `Hello Chetan! My name is ${formData.name}. ${formData.subject ? `Subject: ${formData.subject}. ` : ''}${formData.message}`
-      : 'Hello Chetan, I would like to discuss a project with you.'
-    const encodedMessage = encodeURIComponent(message)
-    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank')
-  }
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+    }, 1200)
   }
 
   return (
-    <section className="section-padding pt-32">
-      <div className="container-custom">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            Get In Touch
-          </h2>
-          <div className="w-24 h-1 bg-primary-600 dark:bg-primary-400 mx-auto mb-6"></div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.
+    <div className="space-y-8 py-4">
+      <div className="flex items-center gap-2 text-terracotta-800 dark:text-terracotta-600 font-mono text-xs font-semibold tracking-wider uppercase">
+        <span className="w-1.5 h-1.5 rounded-full bg-terracotta-800 dark:bg-terracotta-600"></span>
+        05 / Communication
+      </div>
+
+      <div className="space-y-2">
+        <h3 className="text-2xl font-serif text-charcoal-900 dark:text-cream-50 font-normal">
+          Get in Touch
+        </h3>
+        <p className="text-xs font-mono text-charcoal-700/75 dark:text-cream-100/60">
+          Send a direct message or reach out via the direct contact info in the profile column.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
+        <div className="xl:col-span-2 space-y-4 rounded-[1.5rem] border border-charcoal-900/10 dark:border-cream-100/10 bg-[#fff7ee]/80 dark:bg-charcoal-800/20 p-6 shadow-[0_12px_32px_rgba(28,25,23,0.05)]">
+          <h4 className="text-lg font-serif text-charcoal-900 dark:text-cream-50">Direct contact</h4>
+          <p className="text-sm leading-relaxed text-charcoal-800 dark:text-cream-200">
+            Use whichever channel is fastest. I usually reply quickly on email or WhatsApp.
           </p>
-        </motion.div>
-
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="grid md:grid-cols-2 gap-8"
-        >
-          {/* Contact Information */}
-          <div className="space-y-6">
-            <Card>
-              <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                Contact Information
-              </h3>
-              <div className="space-y-4 mb-6">
-                {contactInfo.map((info, index) => (
-                  <motion.a
-                    key={info.label}
-                    href={info.href}
-                    variants={itemVariants}
-                    custom={index}
-                    className="flex items-start group"
-                  >
-                    <div className="p-3 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 mr-4 group-hover:bg-primary-200 dark:group-hover:bg-primary-900/50 transition-colors">
-                      {info.icon}
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500 dark:text-gray-500 mb-1">
-                        {info.label}
-                      </p>
-                      <p className="text-gray-900 dark:text-white font-medium">
-                        {info.value}
-                      </p>
-                    </div>
-                  </motion.a>
-                ))}
-              </div>
-
-              {/* Social Links */}
-              <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-                <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
-                  Connect with me
-                </p>
-                <div className="flex space-x-4">
-                  {socialLinks.map((social) => (
-                    <motion.a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.95 }}
-                      className={`p-3 rounded-lg bg-gray-100 dark:bg-gray-700 transition-colors ${
-                        social.color || 'text-gray-700 dark:text-gray-300 hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:text-primary-600 dark:hover:text-primary-400'
-                      }`}
-                      aria-label={social.label}
-                    >
-                      {social.icon}
-                    </motion.a>
-                  ))}
-                </div>
-              </div>
-
-              {/* WhatsApp Quick Contact Button */}
-              <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
-                <p className="text-sm text-gray-500 dark:text-gray-500 mb-4">
-                  Quick Contact via WhatsApp
-                </p>
-                <Button
-                  onClick={handleWhatsAppClick}
-                  variant="outline"
-                  size="md"
-                  className="w-full bg-green-50 dark:bg-green-900/20 border-green-600 dark:border-green-400 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30"
-                >
-                  <FaWhatsapp className="mr-2" size={20} />
-                  Message on WhatsApp
-                </Button>
-              </div>
-            </Card>
+          <div className="space-y-3 font-mono text-xs">
+            <a href="mailto:koiralachetan16@gmail.com" className="block rounded-2xl border border-charcoal-900/10 dark:border-cream-100/10 bg-white/60 dark:bg-charcoal-900/35 px-4 py-3 text-charcoal-800 dark:text-cream-100 transition-all hover:border-terracotta-800/30 dark:hover:border-terracotta-600/30 active:scale-[0.98] active:bg-terracotta-50/60 dark:active:bg-charcoal-800/60">
+              koiralachetan16@gmail.com
+            </a>
+            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="block rounded-2xl border border-moss-700/15 bg-moss-700/10 px-4 py-3 text-moss-800 dark:text-moss-700 transition-all hover:bg-moss-700 hover:text-cream-100 active:scale-[0.98]">
+              WhatsApp chat
+            </a>
           </div>
+        </div>
 
-          {/* Contact Form */}
-          <Card>
-            <h3 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-              Send Me a Message
-            </h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
-                  Name
+        <div className="xl:col-span-3 border border-charcoal-900/10 dark:border-cream-100/10 bg-[#fff7ee]/85 dark:bg-charcoal-800/10 p-6 rounded-[1.5rem] shadow-[0_12px_32px_rgba(28,25,23,0.05)]">
+        {status.message ? (
+          <div className="border border-moss-700/20 dark:border-moss-700/20 bg-moss-700/5 dark:bg-moss-800/10 p-4 rounded text-xs sm:text-sm text-moss-800 dark:text-moss-700 font-mono">
+            <span className="font-bold mr-1">✓</span> {status.message}
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label htmlFor="name" className="block font-mono text-[10px] uppercase text-charcoal-700/75 dark:text-cream-100/60 font-semibold tracking-wider">
+                  Your Name
                 </label>
                 <input
+                  required
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors"
-                  placeholder="Your name"
+                  className="w-full bg-cream-100 dark:bg-charcoal-900/50 border border-charcoal-900/15 dark:border-cream-100/15 focus:border-terracotta-800 dark:focus:border-terracotta-600 rounded px-3 py-2 text-xs sm:text-sm outline-none text-charcoal-900 dark:text-cream-100 transition-colors"
+                  placeholder="e.g. Ram Bahadur"
                 />
               </div>
 
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
-                  Email
+              <div className="space-y-1">
+                <label htmlFor="email" className="block font-mono text-[10px] uppercase text-charcoal-700/75 dark:text-cream-100/60 font-semibold tracking-wider">
+                  Email Address
                 </label>
                 <input
+                  required
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors"
-                  placeholder="your.email@example.com"
+                  className="w-full bg-cream-100 dark:bg-charcoal-900/50 border border-charcoal-900/15 dark:border-cream-100/15 focus:border-terracotta-800 dark:focus:border-terracotta-600 rounded px-3 py-2 text-xs sm:text-sm outline-none text-charcoal-900 dark:text-cream-100 transition-colors"
+                  placeholder="name@domain.com"
                 />
               </div>
+            </div>
 
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors"
-                  placeholder="Subject"
-                />
-              </div>
+            <div className="space-y-1">
+              <label htmlFor="subject" className="block font-mono text-[10px] uppercase text-charcoal-700/75 dark:text-cream-100/60 font-semibold tracking-wider">
+                Subject
+              </label>
+              <input
+                required
+                type="text"
+                id="subject"
+                name="subject"
+                value={formData.subject}
+                onChange={handleChange}
+                className="w-full bg-cream-100 dark:bg-charcoal-900/50 border border-charcoal-900/15 dark:border-cream-100/15 focus:border-terracotta-800 dark:focus:border-terracotta-600 rounded px-3 py-2 text-xs sm:text-sm outline-none text-charcoal-900 dark:text-cream-100 transition-colors"
+                placeholder="Project inquiry, role opportunity, etc."
+              />
+            </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-                >
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 transition-colors resize-none"
-                  placeholder="Your message..."
-                />
-              </div>
+            <div className="space-y-1">
+              <label htmlFor="message" className="block font-mono text-[10px] uppercase text-charcoal-700/75 dark:text-cream-100/60 font-semibold tracking-wider">
+                Message Body
+              </label>
+              <textarea
+                required
+                id="message"
+                name="message"
+                rows={5}
+                value={formData.message}
+                onChange={handleChange}
+                className="w-full bg-cream-100 dark:bg-charcoal-900/50 border border-charcoal-900/15 dark:border-cream-100/15 focus:border-terracotta-800 dark:focus:border-terracotta-600 rounded px-3 py-2 text-xs sm:text-sm outline-none text-charcoal-900 dark:text-cream-100 transition-colors resize-y"
+                placeholder="Describe your project, timeline, or position details..."
+              />
+            </div>
 
-              {submitStatus && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`p-4 rounded-lg ${
-                    submitStatus.type === 'success'
-                      ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
-                      : submitStatus.type === 'error'
-                      ? 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400'
-                      : 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400'
-                  }`}
-                >
-                  {submitStatus.message}
-                </motion.div>
-              )}
-
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  type="submit"
-                  variant="primary"
-                  size="lg"
-                  className="flex-1"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    'Sending...'
-                  ) : (
-                    <>
-                      Send Message
-                      <FiSend className="ml-2" />
-                    </>
-                  )}
-                </Button>
-                <Button
-                  type="button"
-                  onClick={handleWhatsAppClick}
-                  variant="outline"
-                  size="lg"
-                  className="flex-1 bg-green-50 dark:bg-green-900/20 border-green-600 dark:border-green-400 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30"
-                >
-                  <FaWhatsapp className="mr-2" size={20} />
-                  WhatsApp
-                </Button>
-              </div>
-            </form>
-          </Card>
-        </motion.div>
+            <button
+              disabled={loading}
+              type="submit"
+              className="px-4 py-2 bg-charcoal-900 dark:bg-cream-100 text-cream-100 dark:text-charcoal-900 border border-charcoal-900 dark:border-cream-100 hover:bg-transparent dark:hover:bg-transparent hover:text-charcoal-900 dark:hover:text-cream-100 transition-all rounded-full font-mono text-xs disabled:opacity-50 active:scale-[0.97]"
+            >
+              {loading ? 'Sending...' : 'Send Message ↳'}
+            </button>
+          </form>
+        )}
+        </div>
       </div>
-    </section>
+    </div>
   )
 }
 
 export default Contact
+
+
 

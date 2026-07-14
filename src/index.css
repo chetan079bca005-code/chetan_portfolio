@@ -1,61 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:ital,wght@0,300..700;1,300..700&family=Plus+Jakarta+Sans:wght@300..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Smooth scrolling */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100 dark:bg-gray-900;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 dark:bg-gray-600 rounded-full;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500 dark:bg-gray-500;
-}
-
-/* Custom base styles */
 @layer base {
-  body {
-    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300;
+  html {
+    scroll-behavior: smooth;
   }
-}
 
-/* Utility classes */
-@layer utilities {
-  .section-padding {
-    @apply px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24;
+  html,
+  body {
+    min-height: 100%;
   }
   
-  .container-custom {
-    @apply max-w-7xl mx-auto;
+  body {
+    @apply bg-cream-100 dark:bg-cream-900 text-charcoal-900 dark:text-cream-100 font-sans transition-colors duration-300 antialiased selection:bg-terracotta-100 selection:text-terracotta-800;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    background-image:
+      radial-gradient(circle at top left, rgba(154, 52, 18, 0.12), transparent 30%),
+      radial-gradient(circle at top right, rgba(22, 101, 52, 0.08), transparent 26%),
+      radial-gradient(circle at bottom right, rgba(234, 88, 12, 0.06), transparent 30%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-normal tracking-tight text-charcoal-900 dark:text-cream-50;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-/* Blob animation */
-@keyframes blob {
-  0%, 100% {
-    transform: translate(0px, 0px) scale(1);
+@layer utilities {
+  .bg-grid {
+    background-size: 28px 28px;
+    background-image: radial-gradient(circle, rgba(28, 25, 23, 0.03) 1px, transparent 1px);
   }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
+  
+  .dark .bg-grid {
+    background-image: radial-gradient(circle, rgba(250, 246, 240, 0.02) 1px, transparent 1px);
   }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
+
+  /* Clean editorial scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-cream-200 dark:bg-charcoal-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-charcoal-900/15 dark:bg-cream-100/15 border-2 border-solid border-cream-100 dark:border-cream-900 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-charcoal-900/30 dark:bg-cream-100/30;
   }
 }
-
-.animate-blob {
-  animation: blob 7s infinite;
-}
-
